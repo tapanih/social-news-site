@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<form method="POST" action="{{ url_for('threads_create') }}">
+  title <input type="text" name="title"/></br>
+  url <input type="url" name="url"/></br>
+  or</br>
+  text <input type="text" name="text"/></br>
+  <input type="submit" value="submit"/>
+</form>
+{% endblock %}

@@ -8,4 +8,4 @@ A social news with a list of threads submitted by users. The list of threads can
 
 User can submit many threads but each thread has only one submitter. Users can also add many threads to favorites and threads can be favorited by many users. This relation is managed by a junction table called Favorite. Threads can have many comments but each comment belongs to a single thread. Users can write many comments but each comment is written by a single user. 
 
-![Database diagram](images/diagram.png)
+![Database diagram](documentation/images/diagram.png)
