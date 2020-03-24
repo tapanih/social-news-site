@@ -2,10 +2,25 @@
 
 ## Description
 
-A social news with a list of threads submitted by users. The list of threads can be sorted by date (newest first) or number of upvotes. Threads can be filtered to show all threads or only favorites. Registered users can create threads which include either a link to a news article or just text content. Users can also upvote threads, write comments to threads and add threads to their favorites.
+A social news site with a page that lists threads submitted by users. A threads consists of a title and content that can be a link to a news article or simply text. A thread can also have zero or more comments. The list or threads can be sorted by date (newest first) or number of upvotes. The list can also be filtered to show all threads or only favorites.
 
-## Database diagram
+Features:
 
-User can submit many threads but each thread has only one submitter. Users can also add many threads to favorites and threads can be favorited by many users. This relation is managed by a junction table called Favorite. Threads can have many comments but each comment belongs to a single thread. Users can write many comments but each comment is written by a single user. 
+* Anyone can
+  * sign up and login
+  * browse threads that are sorted by upvotes or date
+  * read threads and comments
+* Registered users can
+  * create threads with a title and either a link or a text
+  * edit or delete their threads and comments
+  * write comments on threads
+  * upvote threads
+  * add threads to favorites
 
-![Database diagram](documentation/images/diagram.png)
+The application is running at: https://social-news-site.herokuapp.com/
+
+## Documentation
+
+[Database diagram](documentation/database_diagram.md)
+
+[User stories](documentation/user_stories.md)

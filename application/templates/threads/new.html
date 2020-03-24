@@ -2,10 +2,23 @@
   
 {% block body %}
 <form method="POST" action="{{ url_for('threads_create') }}">
-  title <input type="text" name="title"/></br>
-  url <input type="url" name="url"/></br>
+  {{  form.title.label }} {{ form.title }} 
+
+  {% for error in form.title.errors %} 
+  {{ error }}
+  {% endfor %}</br>
+
+  {{ form.url.label }} {{ form.url }}
+
+  {% for error in form.url.errors %} 
+  {{ error }}
+  {% endfor %}</br>
   or</br>
-  text <input type="text" name="text"/></br>
+  {{ form.text.label }} {{ form.text }}
+
+  {% for error in form.text.errors %} 
+  {{ error }}
+  {% endfor %}</br>
   <input type="submit" value="submit"/>
 </form>
 {% endblock %}

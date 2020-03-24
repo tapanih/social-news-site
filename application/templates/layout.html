@@ -6,14 +6,17 @@
   </head>
 
   <body>
-    <ul>
-      <li><a href="{{ url_for('threads_index') }}">threads</a></li>
-      <li><a href="{{ url_for('threads_form') }}">submit</a></li>
-    </ul>
-    {% block body %}
-      <p>
-        Content.
-      </p>
-    {% endblock %}
+    <p>
+      <a href="{{ url_for('threads_index') }}">threads</a>
+      <a href="{{ url_for('threads_form') }}">submit</a>
+      {% if current_user.is_authenticated %}
+        logged in as {{ current_user.username }}
+        <a href="{{ url_for('auth_logout') }}">log out</a>
+      {% else %}
+        <a href="{{ url_for('auth_login') }}">log in</a>
+        <a href="{{ url_for('auth_register') }}">register</a>
+      {% endif %}
+    </p>
+    {% block body %} {% endblock %}
   </body>
 </html>

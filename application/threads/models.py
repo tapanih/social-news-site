@@ -11,6 +11,9 @@ class Thread(db.Model):
   content = db.Column(db.String(65536), nullable=False)
   upvotes = db.Column(db.Integer, nullable=False)
 
+  account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
+                         nullable=False)
+
   def __init__(self, title, is_text, content):
     self.title = title
     self.is_text = is_text
