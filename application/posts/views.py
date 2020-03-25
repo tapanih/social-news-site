@@ -8,10 +8,12 @@ from application.posts.forms import PostForm
 def posts_index():
   return render_template("posts/list.html", posts = Post.query.all())
 
+
 @app.route("/posts/new/")
 @login_required
 def posts_form():
   return render_template("posts/new.html", form = PostForm())
+
 
 @app.route("/posts/<post_id>/upvote", methods=["POST"])
 @login_required
@@ -22,6 +24,7 @@ def posts_upvote(post_id):
     db.session().commit()
 
   return redirect(url_for("posts_index"))
+
 
 @app.route("/posts/", methods=["POST"])
 @login_required
@@ -40,5 +43,16 @@ def posts_create():
   
   db.session().add(post)
   db.session().commit()
+
+  return redirect(url_for("posts_index"))
+
+  
+@app.route("/posts/<post_id>/delete", methods=["POST"])
+@login_required
+def posts_delete(post_id):
+  post = Post.query.get(post_id)
+  if post and current_user == post.author:
+    db.session().delete(post)
+    db.session().commit()
 
   return redirect(url_for("posts_index"))
