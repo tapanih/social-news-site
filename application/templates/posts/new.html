@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<form method="POST" action="{{ url_for('threads_create') }}">
+<form method="POST" action="{{ url_for('posts_create') }}">
   {{  form.title.label }} {{ form.title }} 
 
   {% for error in form.title.errors %} 

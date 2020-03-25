@@ -9,7 +9,7 @@ class User(db.Model):
   password_hash = db.Column(db.String(255), nullable=False)
   date_registered = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-  threads = db.relationship("Thread", backref="author", lazy="dynamic")
+  posts = db.relationship("Post", backref="author", lazy="dynamic")
 
   def __init__(self, username, password_hash):
     self.username = username

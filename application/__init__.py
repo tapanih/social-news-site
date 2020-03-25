@@ -10,15 +10,15 @@ import os
 if os.environ.get("HEROKU"):
   app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 else:
-  app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///threads.db"
+  app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///application.db"
   app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
 
 from application import views
 
-from application.threads import models
-from application.threads import views
+from application.posts import models
+from application.posts import views
 
 from application.auth import models
 from application.auth import views

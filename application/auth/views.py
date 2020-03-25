@@ -17,7 +17,7 @@ def auth_login():
 
   if user and bcrypt.check_password_hash(user.password_hash, form.password.data):
     login_user(user)
-    return redirect(url_for("threads_index"))
+    return redirect(url_for("posts_index"))
 
   return render_template("auth/login.html", form=form,
                          error="Wrong username or password")
@@ -26,7 +26,7 @@ def auth_login():
 @app.route("/auth/logout")
 def auth_logout():
   logout_user()
-  return redirect(url_for("threads_index"))
+  return redirect(url_for("posts_index"))
 
 
 @app.route("/auth/register", methods = ["GET", "POST"])
@@ -46,4 +46,4 @@ def auth_register():
   db.session().add(user)
   db.session().commit()
 
-  return redirect(url_for("threads_index"))
+  return redirect(url_for("posts_index"))

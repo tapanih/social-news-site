@@ -149,4 +149,4 @@ media
 static
 
 # Database files
-threads.db
+application.db
