@@ -2,22 +2,24 @@
 
 ## Description
 
-A social news site with a page that lists threads submitted by users. A threads consists of a title and content that can be a link to a news article or simply text. A thread can also have zero or more comments. The list or threads can be sorted by date (newest first) or number of upvotes. The list can also be filtered to show all threads or only favorites.
+A social news site with a page that lists posts submitted by users. A post consists of a title and content that can be a link to a news article or simply text. A post can also have zero or more comments. The list or posts can be sorted by date (newest first) or number of upvotes. The list can also be filtered to show all posts or only favorites.
 
 Features:
 
 * Anyone can
   * sign up and login
-  * browse threads that are sorted by upvotes or date
-  * read threads and comments
+  * browse posts that are sorted by upvotes or date
+  * read posts and comments
 * Registered users can
-  * create threads with a title and either a link or a text
-  * edit or delete their threads and comments
-  * write comments on threads
+  * create posts with a title and either a link or a text
+  * edit or delete their posts and comments
+  * write comments on posts
   * upvote threads
-  * add threads to favorites
+  * add threads to posts
 
 The application is running at: https://social-news-site.herokuapp.com/
+
+Username and password for test account is "test".
 
 ## Documentation
 
