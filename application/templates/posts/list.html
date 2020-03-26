@@ -28,6 +28,13 @@
       </td>
       <td>
         {% if post.author == current_user %}
+          <form action="{{ url_for('posts_edit', post_id=post.id) }}">
+            <input type="submit" value="edit"/>
+          </form>
+        {% endif %}
+      </td>
+      <td>
+        {% if post.author == current_user %}
           <form method="POST" action="{{ url_for('posts_delete', post_id=post.id) }}">
             <input type="submit" value="delete"/>
           </form>

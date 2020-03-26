@@ -9,3 +9,17 @@ class PostForm(FlaskForm):
 
   class Meta:
     csrf = False
+
+class EditUrlPostForm(FlaskForm):
+  title = StringField("title", validators=[Length(min=2, max=255)])
+  content = StringField("url", validators=[URL(message="Invalid URL")])
+
+  class Meta:
+    csrf = False
+
+class EditTextPostForm(FlaskForm):
+  title = StringField("title", validators=[Length(min=2, max=255)])
+  content = StringField("text", validators=[Length(max=65500)])
+
+  class Meta:
+    csrf = False
