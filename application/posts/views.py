@@ -62,11 +62,11 @@ def posts_delete(post_id):
 @app.route("/posts/<post_id>/edit", methods=["GET", "POST"])
 @login_required
 def posts_edit(post_id):
-  if request.method == "GET":
-    post = Post.query.get(post_id)
-    if not post or current_user != post.author:
-      return redirect(url_for("posts_index"))
+  post = Post.query.get(post_id)
+  if not post or current_user != post.author:
+    return redirect(url_for("posts_index"))
 
+  if request.method == "GET":
     form = None
     if post.is_text:
       form = EditTextPostForm(title=post.title, content=post.content)
@@ -76,12 +76,7 @@ def posts_edit(post_id):
     return render_template("posts/edit.html", form=form, id=post.id)
   
   if request.method == "POST":
-    post = Post.query.get(post_id)
-    if not post or current_user != post.author:
-      return redirect(url_for("posts_index"))
-  
     form = EditTextPostForm(request.form) if post.is_text else EditUrlPostForm(request.form)
-    print(form)
 
     if not form.validate():
       return render_template("posts/edit.html", form=form, id=post.id)
