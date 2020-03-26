@@ -4,13 +4,13 @@ from flask_login import login_required, current_user
 from application.posts.models import Post
 from application.posts.forms import PostForm, EditTextPostForm, EditUrlPostForm
 
-@app.route("/posts", methods=["GET"])
+@app.route("/", methods=["GET"])
 def posts_index():
   return render_template("posts/list.html",
          posts = Post.query.order_by(Post.upvotes.desc()).all())
 
 
-@app.route("/posts/new/")
+@app.route("/submit")
 @login_required
 def posts_form():
   return render_template("posts/new.html", form = PostForm())
@@ -57,6 +57,7 @@ def posts_delete(post_id):
     db.session().commit()
 
   return redirect(url_for("posts_index"))
+
 
 @app.route("/posts/<post_id>/edit", methods=["GET", "POST"])
 @login_required
