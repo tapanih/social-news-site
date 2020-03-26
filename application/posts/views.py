@@ -6,7 +6,8 @@ from application.posts.forms import PostForm
 
 @app.route("/posts", methods=["GET"])
 def posts_index():
-  return render_template("posts/list.html", posts = Post.query.all())
+  return render_template("posts/list.html",
+         posts = Post.query.order_by(Post.upvotes.desc()).all())
 
 
 @app.route("/posts/new/")
