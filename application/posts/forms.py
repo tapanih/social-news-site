@@ -23,3 +23,9 @@ class EditTextPostForm(FlaskForm):
 
   class Meta:
     csrf = False
+
+class CommentForm(FlaskForm):
+  content = StringField("text", validators=[Length(min=2, max=65500)])
+
+  class Meta:
+    csrf = False

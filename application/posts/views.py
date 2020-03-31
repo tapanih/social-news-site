@@ -1,8 +1,8 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required, current_user
-from application.posts.models import Post
-from application.posts.forms import PostForm, EditTextPostForm, EditUrlPostForm
+from application.posts.models import Comment, Post
+from application.posts.forms import CommentForm, PostForm, EditTextPostForm, EditUrlPostForm
 
 @app.route("/", methods=["GET"])
 def posts_index():
@@ -87,4 +87,27 @@ def posts_edit(post_id):
   
     return redirect(url_for("posts_index"))
 
-    
+@app.route("/posts/<post_id>/comments", methods=["GET", "POST"])
+@login_required
+def posts_comment(post_id):
+  post = Post.query.get(post_id)
+  if not post:
+    return redirect(url_for("posts_index"))
+
+  comments = (Comment.query.filter_by(post_id=post.id)
+                           .order_by(Comment.date_created.desc()).all())
+
+  if request.method == "POST":
+    form = CommentForm(request.form)
+    if not form.validate():
+      return render_template("posts/comments.html", form=form, post=post, comments=comments)
+    comment = Comment(form.content.data)
+    comment.author = current_user
+    comment.post_id = post.id
+    db.session().add(comment)
+    db.session().commit()
+    return redirect(url_for("posts_comment", post_id=post.id))
+
+  return render_template("posts/comments.html", form=CommentForm(), post=post,
+      comments=comments)
+
