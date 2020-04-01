@@ -3,20 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>social-news-site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
   </head>
 
   <body>
-    <p>
-      <a href="{{ url_for('posts_index') }}">posts</a>
-      <a href="{{ url_for('posts_form') }}">submit</a>
-      {% if current_user.is_authenticated %}
-        logged in as {{ current_user.username }}
-        <a href="{{ url_for('auth_logout') }}">log out</a>
-      {% else %}
-        <a href="{{ url_for('auth_login') }}">log in</a>
-        <a href="{{ url_for('auth_register') }}">register</a>
-      {% endif %}
-    </p>
+    
+    <div class="container">
+      <header>
+        <a href="{{ url_for('posts_index') }}" class="logo">social-news-site</a>
+        <ul class="menu">
+          <li><a href="{{ url_for('posts_index') }}">posts</a> |</li>
+          <li><a href="{{ url_for('posts_form') }}">submit</a> |</li>
+        </ul>
+        <ul class="menu menu-right">
+          {% if current_user.is_authenticated %}
+            {{ current_user.username }} (1) |
+            <li><a href="{{ url_for('auth_logout') }}">log out</a></li>
+          {% else %}
+            <li><a href="{{ url_for('auth_login') }}">log in</a></li> |
+            <li><a href="{{ url_for('auth_register') }}">register</a></li>
+          {% endif %}
+        </ul>
+      </header>
     {% block body %} {% endblock %}
+    </div>
   </body>
 </html>

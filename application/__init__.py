@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
+from flask_moment import Moment
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+moment = Moment(app)
 
 from flask_sqlalchemy import SQLAlchemy
 

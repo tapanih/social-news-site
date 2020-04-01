@@ -3,8 +3,9 @@
 {% block body %}
 {{ error }}
 <form method="POST" action="{{ url_for('auth_login') }}">
-	{{ form.username.label }} {{ form.username }}<br/>
-  {{ form.password.label }} {{ form.password }}<br/>
-	<input type="submit" value="login"/>
+	{{ form.username.label }} {{ form.username(class_='login-field') }}<br/>
+  {{ form.password.label }} {{ form.password(class_='login-field') }}<br/>
+  <input type="hidden" value="login"/>
+  <button type="submit" value="login" class="button">login</button>
 </form>
 {% endblock %}

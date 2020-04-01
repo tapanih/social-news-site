@@ -7,7 +7,7 @@ from application.posts.forms import CommentForm, PostForm, EditTextPostForm, Edi
 @app.route("/", methods=["GET"])
 def posts_index():
   return render_template("posts/list.html",
-         posts = Post.query.order_by(Post.upvotes.desc()).all())
+      posts = Post.query.order_by(Post.upvotes.desc()).all())
 
 
 @app.route("/submit")
