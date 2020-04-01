@@ -7,13 +7,19 @@ from application.posts.forms import CommentForm, PostForm, EditTextPostForm, Edi
 @app.route("/", methods=["GET"])
 def posts_index():
   return render_template("posts/list.html",
-      posts = Post.query.order_by(Post.upvotes.desc()).all())
+      posts=Post.list_posts_dangerously_ordered_by("post.upvotes"))
+
+
+@app.route("/new", methods=["GET"])
+def posts_newest():
+  return render_template("posts/list.html",
+      posts=Post.list_posts_dangerously_ordered_by("post.date_created"))
 
 
 @app.route("/submit")
 @login_required
 def posts_form():
-  return render_template("posts/new.html", form = PostForm())
+  return render_template("posts/new.html", form=PostForm())
 
 
 @app.route("/posts/<post_id>/upvote", methods=["POST"])
@@ -110,4 +116,3 @@ def posts_comment(post_id):
 
   return render_template("posts/comments.html", form=CommentForm(), post=post,
       comments=comments)
-

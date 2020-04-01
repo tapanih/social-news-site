@@ -1,5 +1,7 @@
 from application import db
 from application.models import Base
+from sqlalchemy.sql import text
+from datetime import datetime
 
 class PostBase(Base):
   __abstract__ = True
@@ -17,12 +19,32 @@ class Post(PostBase):
 
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
       nullable=False)
+  
+  upvoted_accounts = db.relationship("Account", secondary="upvote")
 
   def __init__(self, title, is_text, content):
     self.title = title
     self.is_text = is_text
     self.content = content
     self.upvotes = 0
+
+  @staticmethod
+  def list_posts_dangerously_ordered_by(param):
+    stmt = text("SELECT post.id, post.date_created, post.content, "
+                "post.title, post.is_text, post.upvotes, "
+                "account.username as post_author, "
+                "COUNT(Comment.post_id) as post_comments FROM Post "
+                "LEFT JOIN Account ON Account.id = Post.account_id "
+                "LEFT JOIN Comment ON Comment.post_id = Post.id "
+                "GROUP BY Post.id "
+                "ORDER BY " + param + " DESC;")
+
+    res = db.engine.execute(stmt)
+    return [{"id":row[0], "date_created":datetime.fromisoformat(row[1]),
+             "content":row[2], "title":row[3], "is_text":row[4],
+             "upvotes":row[5], "author":row[6], "comments":row[7]}
+              for row in res]
+
 
 class Comment(PostBase):
 

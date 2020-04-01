@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>social-news-site</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     {{ moment.include_jquery() }}
@@ -14,7 +15,7 @@
       <header>
         <a href="{{ url_for('posts_index') }}" class="logo">social-news-site</a>
         <ul class="menu menu-left">
-          <li><a href="{{ url_for('posts_index') }}">posts</a> |</li>
+          <li><a href="{{ url_for('posts_newest') }}">new</a> |</li>
           <li><a href="{{ url_for('posts_form') }}">submit</a> |</li>
         </ul>
         <ul class="menu menu-right">

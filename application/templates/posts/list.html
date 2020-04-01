@@ -19,9 +19,17 @@
           {% else %}
             <a class="content" href={{ post.content }}>{{ post.title }}</a>
           {% endif %}</br>
-          {{ post.upvotes }} points by {{ post.author.username }} 
+          {{ post.upvotes }} points by {{ post.author }}
           {{ moment(post.date_created).fromNow() }} | 
-          <a class="comment-link" href="{{ url_for('posts_comment', post_id=post.id) }}">discuss</a>
+          <a class="comment-link" href="{{ url_for('posts_comment', post_id=post.id) }}">
+            {% if post.comments == 0 %}
+              discuss
+            {% elif post.comments == 1 %}
+              {{post.comments}} comment
+            {% else %}
+              {{post.comments}} comments
+            {% endif %}
+          </a>
         </div>
       </div>
     {% endfor %}
