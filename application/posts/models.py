@@ -11,6 +11,7 @@ class PostBase(Base):
       onupdate=db.func.current_timestamp())
   content = db.Column(db.String(65536), nullable=False)
 
+
 class Post(PostBase):
   __tablename__ = "post"
 
@@ -21,7 +22,7 @@ class Post(PostBase):
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
       nullable=False)
   
-  upvoted_accounts = db.relationship("User", secondary="upvote")
+  upvoted_accounts = db.relationship("Upvote")
 
   def __init__(self, title, is_text, content):
     self.title = title
@@ -34,7 +35,7 @@ class Post(PostBase):
     stmt = text("SELECT post.id, post.date_created, post.content, "
                 "post.title, post.is_text, post.upvotes, "
                 "account.username as post_author, "
-                "COUNT(Comment.post_id) as post_comments FROM Post "
+                "COUNT(Comment.post_id) as post_comments FROM post "
                 "LEFT JOIN Account ON Account.id = Post.account_id "
                 "LEFT JOIN Comment ON Comment.post_id = Post.id "
                 "GROUP BY Post.id, Account.id "
@@ -56,7 +57,9 @@ class Comment(PostBase):
   def __init__(self, content):
     self.content = content
 
+
 class Upvote(Base):
+  __tablename__ = "upvote"
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
   post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
