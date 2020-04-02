@@ -12,6 +12,7 @@ class PostBase(Base):
   content = db.Column(db.String(65536), nullable=False)
 
 class Post(PostBase):
+  __tablename__ = "post"
 
   title = db.Column(db.String(144), nullable=False)
   is_text = db.Column(db.Boolean, nullable=False)
@@ -20,7 +21,7 @@ class Post(PostBase):
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
       nullable=False)
   
-  upvoted_accounts = db.relationship("Account", secondary="upvote")
+  upvoted_accounts = db.relationship("account", secondary="upvote")
 
   def __init__(self, title, is_text, content):
     self.title = title
@@ -59,7 +60,7 @@ class Upvote(Base):
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
   post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
-  account = db.relationship("User",
+  account = db.relationship("account",
       backref=db.backref("upvote", cascade="all, delete-orphan"))
-  post = db.relationship("Post",
+  post = db.relationship("post",
       backref=db.backref("upvote", cascade="all, delete-orphan"))
