@@ -21,7 +21,7 @@ class Post(PostBase):
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
       nullable=False)
   
-  upvoted_accounts = db.relationship("account", secondary="upvote")
+  upvoted_accounts = db.relationship("User", secondary="upvote")
 
   def __init__(self, title, is_text, content):
     self.title = title
