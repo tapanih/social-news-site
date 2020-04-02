@@ -14,8 +14,8 @@ Features:
   * create posts with a title and either a link or a text
   * edit or delete their posts and comments
   * write comments on posts
-  * upvote threads
-  * add threads to posts
+  * upvote posts
+  * add posts to favorites
 
 The application is running at: https://social-news-site.herokuapp.com/
 

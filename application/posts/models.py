@@ -36,7 +36,7 @@ class Post(PostBase):
                 "COUNT(Comment.post_id) as post_comments FROM Post "
                 "LEFT JOIN Account ON Account.id = Post.account_id "
                 "LEFT JOIN Comment ON Comment.post_id = Post.id "
-                "GROUP BY Post.id "
+                "GROUP BY Post.id, Account.id "
                 "ORDER BY " + param + " DESC;")
 
     res = db.engine.execute(stmt)
@@ -54,3 +54,12 @@ class Comment(PostBase):
 
   def __init__(self, content):
     self.content = content
+
+class Upvote(Base):
+  account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
+  post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+
+  account = db.relationship("User",
+      backref=db.backref("upvote", cascade="all, delete-orphan"))
+  post = db.relationship("Post",
+      backref=db.backref("upvote", cascade="all, delete-orphan"))
