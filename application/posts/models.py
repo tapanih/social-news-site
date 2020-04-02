@@ -15,7 +15,7 @@ class PostBase(Base):
 class Post(PostBase):
   __tablename__ = "post"
 
-  title = db.Column(db.String(144), nullable=False)
+  title = db.Column(db.String(255), nullable=False)
   is_text = db.Column(db.Boolean, nullable=False)
   upvotes = db.Column(db.Integer, nullable=False)
 

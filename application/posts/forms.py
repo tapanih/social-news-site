@@ -4,7 +4,7 @@ from wtforms.validators import Length, Optional, URL, ValidationError
 from wtforms.widgets import TextArea
 
 class PostForm(FlaskForm):
-  title = StringField("title", validators=[Length(min=2, max=255)])
+  title = StringField("title", validators=[Length(min=2, max=144)])
   url = StringField("url", validators=[Optional(), URL(message="Invalid URL. Leave blank for text post.")])
   text = StringField("text", widget=TextArea(), validators=[Optional(), Length(max=65500)])
 
@@ -12,14 +12,14 @@ class PostForm(FlaskForm):
     csrf = False
 
 class EditUrlPostForm(FlaskForm):
-  title = StringField("title", validators=[Length(min=2, max=255)])
+  title = StringField("title", validators=[Length(min=2, max=144)])
   content = StringField("url", validators=[URL(message="Invalid URL")])
 
   class Meta:
     csrf = False
 
 class EditTextPostForm(FlaskForm):
-  title = StringField("title", validators=[Length(min=2, max=255)])
+  title = StringField("title", validators=[Length(min=2, max=144)])
   content = StringField("text", widget=TextArea(), validators=[Length(max=65500)])
 
   class Meta:
