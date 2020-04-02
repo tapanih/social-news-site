@@ -60,7 +60,7 @@ class Upvote(Base):
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
   post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
-  account = db.relationship("account",
+  account = db.relationship("User",
       backref=db.backref("upvote", cascade="all, delete-orphan"))
-  post = db.relationship("post",
+  post = db.relationship("Post",
       backref=db.backref("upvote", cascade="all, delete-orphan"))
