@@ -42,7 +42,7 @@ class Post(PostBase):
                 "ORDER BY " + param + " DESC;")
 
     res = db.engine.execute(stmt)
-    return [{"id":row[0], "date_created":datetime.fromisoformat(row[1]),
+    return [{"id":row[0], "date_created":datetime.fromisoformat(str(row[1])),
              "content":row[2], "title":row[3], "is_text":row[4],
              "upvotes":row[5], "author":row[6], "comments":row[7]}
               for row in res]
