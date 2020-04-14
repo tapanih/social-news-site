@@ -25,7 +25,7 @@
       </form>
     </div>
   {% endif %}
-  <form method="POST" action="{{ url_for('posts_comment', post_id=post.id) }}">
+  <form method="POST" action="{{ url_for('posts_add_comment', post_id=post.id) }}">
     {{  form.content.label }} </br>
     {{ form.content }} 
 

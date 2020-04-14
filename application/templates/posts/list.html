@@ -15,13 +15,13 @@
         </div>
         <div class="post">
           {% if post.is_text %}
-            <a class="content" href="{{ url_for('posts_comment', post_id=post.id) }}">{{ post.title }}</a>
+            <a class="content" href="{{ url_for('posts_comments', post_id=post.id) }}">{{ post.title }}</a>
           {% else %}
             <a class="content" href={{ post.content }}>{{ post.title }}</a>
           {% endif %}</br>
           {{ post.upvotes }} points by {{ post.author }}
           {{ moment(post.date_created).fromNow() }} | 
-          <a class="comment-link" href="{{ url_for('posts_comment', post_id=post.id) }}">
+          <a class="comment-link" href="{{ url_for('posts_comments', post_id=post.id) }}">
             {% if post.comments == 0 %}
               discuss
             {% elif post.comments == 1 %}
