@@ -9,7 +9,7 @@ class PostBase(Base):
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
       onupdate=db.func.current_timestamp())
-  content = db.Column(db.String(65536), nullable=False)
+  content = db.Column(db.String(3000), nullable=False)
 
 
 class Post(PostBase):
