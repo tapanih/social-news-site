@@ -2,17 +2,26 @@
   
 {% block body %}
 <form method="POST" action="{{ url_for('posts_edit', post_id=id) }}">
-  {{  form.title.label }} {{ form.title }} 
-
-  {% for error in form.title.errors %} 
-  {{ error }}
-  {% endfor %}</br>
-
-  {{ form.content.label }} {{ form.content }}
-
-  {% for error in form.content.errors %} 
-  {{ error }}
-  {% endfor %}</br>
+  <div class="container-col">
+    <div class="container-row">
+      <label>{{  form.title.label }}</label>
+      <div>{{ form.title }}</div>
+      <div>
+        {% for error in form.title.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container-row">
+      <label>{{ form.content.label }}</label>
+      <div>{{ form.content }}</div>
+      <div>
+        {% for error in form.content.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
   <input class="button" type="submit" value="submit"/>
 </form>
 {% endblock %}

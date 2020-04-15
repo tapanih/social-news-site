@@ -150,3 +150,8 @@ textarea {
   color: rgb(119, 119, 119);
   margin-top: 8px;
 }
+
+label {
+  margin-top: 10px;
+  min-width: 35px;
+}

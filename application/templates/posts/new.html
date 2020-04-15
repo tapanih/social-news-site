@@ -2,23 +2,36 @@
   
 {% block body %}
 <form method="POST" action="{{ url_for('posts_create') }}">
-  {{  form.title.label }} {{ form.title }} 
-
-  {% for error in form.title.errors %} 
-  {{ error }}
-  {% endfor %}</br>
-
-  {{ form.url.label }} {{ form.url }}
-
-  {% for error in form.url.errors %} 
-  {{ error }}
-  {% endfor %}</br>
-  or</br>
-  {{ form.text.label }} {{ form.text }}
-
-  {% for error in form.text.errors %} 
-  {{ error }}
-  {% endfor %}</br>
+  <div class="container-col">
+    <div class="container-row">
+      <label>{{  form.title.label }}</label>
+      <div>{{ form.title }}</div>
+      <div>
+        {% for error in form.title.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container-row">
+      <label>{{ form.url.label }}</label>
+      <div>{{ form.url }}</div>
+      <div>
+        {% for error in form.url.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container-row">or</div>
+    <div class="container-row">
+      <label>{{ form.text.label }}</label>
+      <div>{{ form.text }}</div>
+      <div>
+        {% for error in form.text.errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
   <input class="button" type="submit" value="submit"/>
 </form>
 {% endblock %}
