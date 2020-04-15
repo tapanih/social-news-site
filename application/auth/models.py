@@ -1,5 +1,6 @@
 from application import db
 from application.models import Base
+from sqlalchemy.sql import text
 
 class User(Base):
 
@@ -27,3 +28,10 @@ class User(Base):
 
   def is_authenticated(self):
     return True
+
+  def get_karma(self):
+    stmt = text("SELECT SUM(post.upvotes) FROM post "
+                "WHERE post.account_id == :user_id").params(user_id=self.id)
+    res = db.engine.execute(stmt)
+    for row in res:
+      return row[0]
