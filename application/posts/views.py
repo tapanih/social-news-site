@@ -1,7 +1,7 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required, current_user
-from application.posts.models import Comment, Post
+from application.posts.models import Comment, Post, Upvote
 from application.posts.forms import CommentForm, PostForm, EditTextPostForm, EditUrlPostForm
 
 @app.route("/", methods=["GET"])
@@ -26,9 +26,13 @@ def posts_form():
 @login_required
 def posts_upvote(post_id):
   post = Post.query.get(post_id)
-  if post:
-    post.upvotes += 1
-    db.session().commit()
+  if not post or Upvote.query.filter_by(account_id=current_user.id, post_id=post.id).first():
+    return redirect(url_for("posts_index"))
+
+  post.upvotes += 1
+  upvote = Upvote(current_user.id, post.id)
+  db.session().add(upvote)
+  db.session().commit()
 
   return redirect(url_for("posts_index"))
 

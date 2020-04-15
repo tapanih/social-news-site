@@ -67,3 +67,7 @@ class Upvote(Base):
       backref=db.backref("upvote", cascade="all, delete-orphan"))
   post = db.relationship("Post",
       backref=db.backref("upvote", cascade="all, delete-orphan"))
+
+  def __init__(self, account_id, post_id):
+    self.account_id = account_id
+    self.post_id = post_id
