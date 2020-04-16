@@ -31,7 +31,7 @@ class User(Base):
 
   def get_karma(self):
     stmt = text("SELECT SUM(post.upvotes) FROM post "
-                "WHERE post.account_id == :user_id").params(user_id=self.id)
+                "WHERE post.account_id = :user_id").params(user_id=self.id)
     res = db.engine.execute(stmt)
     for row in res:
       return row[0]
