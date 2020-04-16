@@ -146,6 +146,23 @@ textarea {
   color: rgb(119, 119, 119);
 }
 
+.inline {
+  display: inline;
+}
+
+.link-button {
+  padding: 0px;
+  display: inline;
+  background: none;
+  border: none;
+  color: rgb(119, 119, 119);
+  cursor: pointer;
+}
+
+.link-button:focus {
+  outline: none;
+}
+
 .numbering {
   color: rgb(119, 119, 119);
   margin-top: 8px;

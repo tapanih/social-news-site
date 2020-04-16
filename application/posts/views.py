@@ -2,7 +2,7 @@ from application import app, db
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from application.posts.models import Comment, Post, Upvote
-from application.posts.forms import CommentForm, PostForm, EditTextPostForm, EditUrlPostForm
+from application.posts.forms import CommentForm, PostForm, EditTextPostForm, EditUrlPostForm, EditCommentForm
 
 @app.route("/", methods=["GET"])
 def posts_index():
@@ -116,7 +116,7 @@ def posts_comments(post_id):
 def posts_add_comment(post_id):
   post = Post.query.get(post_id)
   if not post:
-    return redirect(url_for("posts_index"))
+    return redirect(request.referrer)
 
   comments = (Comment.query.filter_by(post_id=post.id)
                            .order_by(Comment.date_created.desc()).all())
@@ -130,3 +130,40 @@ def posts_add_comment(post_id):
   db.session().add(comment)
   db.session().commit()
   return redirect(url_for("posts_comments", post_id=post.id))
+
+
+@app.route("/posts/<post_id>/comments/<comment_id>/edit", methods=["GET", "POST"])
+@login_required
+def posts_edit_comment(post_id, comment_id):
+  post = Post.query.get(post_id)
+  comment = Comment.query.get(comment_id)
+  if not post or not comment or current_user != comment.author:
+    return redirect(request.referrer)
+
+  if request.method == "GET":
+    comments = (Comment.query.filter_by(post_id=post.id)
+                          .order_by(Comment.date_created.desc()).all())
+    form = EditCommentForm(content=comment.content)
+    return render_template("posts/comments.html",
+      form=form, post=post, comments=comments, comment_id=comment.id)
+
+  if request.method == "POST":
+    form = EditCommentForm(request.form)
+    if not form.validate():
+      return render_template("posts/comments.html",
+        form=form, post=post, comments=comments, comment_id=comment.id)
+
+    comment.content = form.content.data
+    db.session().commit()
+    return redirect(url_for("posts_comments", post_id=post.id))
+
+
+@app.route("/comments/<comment_id>/delete", methods=["POST"])
+@login_required
+def posts_delete_comment(comment_id):
+  comment = Comment.query.get(comment_id)
+  if comment and current_user == comment.author:
+    db.session().delete(comment)
+    db.session().commit()
+
+  return redirect(request.referrer)

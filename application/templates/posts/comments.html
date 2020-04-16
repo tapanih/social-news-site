@@ -2,16 +2,16 @@
 
 {% block body %}
   <div class="post">
-          {% if post.is_text %}
-            <span class="content">{{ post.title }}</span></br>
-            {{ post.upvotes }} points by {{ post.author.username }} 
-            {{ moment(post.date_created).fromNow() }}</br>
-            <p class="content">{{ post.content }}</p>
-          {% else %}
-            <a class="content" href={{ post.content }}>{{ post.title }}</a></br>
-            {{ post.upvotes }} points by {{ post.author.username }} 
-            {{ moment(post.date_created).fromNow() }}
-          {% endif %}
+    {% if post.is_text %}
+      <span class="content">{{ post.title }}</span></br>
+      {{ post.upvotes }} points by {{ post.author.username }}
+      {{ moment(post.date_created).fromNow() }}</br>
+      <p class="content">{{ post.content }}</p>
+    {% else %}
+      <a class="content" href={{ post.content }}>{{ post.title }}</a></br>
+      {{ post.upvotes }} points by {{ post.author.username }}
+      {{ moment(post.date_created).fromNow() }}
+    {% endif %}
   </div>
   {% if post.author == current_user %}
     <div class=container-row>
@@ -25,11 +25,17 @@
       </form>
     </div>
   {% endif %}
-  <form method="POST" action="{{ url_for('posts_add_comment', post_id=post.id) }}">
-    {{  form.content.label }} </br>
-    {{ form.content }} 
+  <form method="POST" action="
+    {% if comment_id is defined %}
+      {{ url_for('posts_edit_comment', post_id=post.id, comment_id=comment_id) }}
+    {% else %}
+      {{ url_for('posts_add_comment', post_id=post.id) }}
+    {% endif %}">
 
-    {% for error in form.content.errors %} 
+    {{  form.content.label }} </br>
+    {{ form.content }}
+
+    {% for error in form.content.errors %}
     {{ error }}
     {% endfor %}</br>
     <input type="hidden" value="submit"/>
@@ -39,8 +45,16 @@
     {% for comment in comments %}
     <div class="container-row">
       <div class="post">
-      {{ comment.author.username }} {{ moment(comment.date_created).fromNow() }}</br>
-      <div class="content">{{ comment.content }}</div>
+        {{ comment.author.username }} {{ moment(comment.date_created).fromNow() }}
+        </br>
+        <div class="content">{{ comment.content }}</div>
+        {% if comment.author == current_user %}
+          <a class="comment-link" href="{{ url_for('posts_edit_comment', post_id=post.id, comment_id=comment.id) }}">edit</a>
+          <form class="inline" method="POST" action="{{ url_for('posts_delete_comment', comment_id=comment.id) }}">
+            <input type="hidden" value="comment_delete"/>
+            <button type="submit" value="comment_delete" class="link-button">delete</button>
+          </form>
+        {% endif %}
       </div>
     </div>
     {% endfor %}

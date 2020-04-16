@@ -30,3 +30,9 @@ class CommentForm(FlaskForm):
 
   class Meta:
     csrf = False
+
+class EditCommentForm(FlaskForm):
+  content = StringField("Edit comment", widget=TextArea(), validators=[Length(min=2, max=3000)])
+
+  class Meta:
+    csrf = False
