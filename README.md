@@ -26,3 +26,36 @@ Username and password for test account is "test".
 [Database diagram](documentation/database_diagram.md)
 
 [User stories](documentation/user_stories.md)
+
+## Set Up Instructions
+
+Clone this repository with
+```
+git clone https://github.com/tapanih/social-news-site
+```
+Create a Python virtual environment inside the folder (Python 3.7+ required) and activate it with commands
+```
+$ cd social-news-site
+$ python3 -m venv venv
+$ source venv/bin/activate
+```
+Install dependencies with command
+```
+(venv) $ pip install -r requirements.txt
+```
+Run the application with command
+```
+(venv) $ python run.py
+```
+The application should now be running at http://127.0.0.1:5000/
+
+### Heroku
+
+The repository contains Procfile and runtime.txt for Heroku configuration. An environment variable needs to be set on Heroku with command
+```
+(venv) $ heroku config:set HEROKU=1
+```
+Also a database needs to be created with
+```
+(venv) $ heroku addons:add heroku-postgresql:hobby-dev
+```
