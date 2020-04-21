@@ -57,10 +57,10 @@ class Comment(PostBase):
     self.content = content
 
 
-class Upvote(Base):
+class Upvote(db.Model):
   __tablename__ = "upvote"
-  account_id = db.Column(db.Integer, db.ForeignKey('account.id'))
-  post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+  account_id = db.Column(db.Integer, db.ForeignKey('account.id'), primary_key=True)
+  post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
 
   account = db.relationship("User",
       backref=db.backref("upvote", cascade="all, delete-orphan"))
