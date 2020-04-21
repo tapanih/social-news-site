@@ -30,8 +30,8 @@ class User(Base):
     return True
 
   def get_karma(self):
-    stmt = text("SELECT SUM(post.upvotes) FROM post "
+    stmt = text("SELECT COUNT(*) FROM post "
+                "LEFT JOIN Upvote ON Upvote.post_id = Post.id "
                 "WHERE post.account_id = :user_id").params(user_id=self.id)
     res = db.engine.execute(stmt)
-    for row in res:
-      return row[0]
+    return res.first()[0]

@@ -17,7 +17,6 @@ class Post(PostBase):
 
   title = db.Column(db.String(255), nullable=False)
   is_text = db.Column(db.Boolean, nullable=False)
-  upvotes = db.Column(db.Integer, nullable=False)
 
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
       nullable=False)
@@ -33,7 +32,7 @@ class Post(PostBase):
   @staticmethod
   def list_posts_dangerously_ordered_by(param):
     stmt = text("SELECT post.id, post.date_created, post.content, "
-                "post.title, post.is_text, post.upvotes, "
+                "post.title, post.is_text, (SELECT COUNT(*) FROM Upvote WHERE post_id = post.id) as post_upvotes, "
                 "account.username as post_author, "
                 "COUNT(Comment.post_id) as post_comments FROM post "
                 "LEFT JOIN Account ON Account.id = Post.account_id "

@@ -7,7 +7,7 @@ from application.posts.forms import CommentForm, PostForm, EditTextPostForm, Edi
 @app.route("/", methods=["GET"])
 def posts_index():
   return render_template("posts/list.html",
-      posts=Post.list_posts_dangerously_ordered_by("post.upvotes"))
+      posts=Post.list_posts_dangerously_ordered_by("post_upvotes"))
 
 
 @app.route("/new", methods=["GET"])
@@ -29,7 +29,6 @@ def posts_upvote(post_id):
   if not post or Upvote.query.filter_by(account_id=current_user.id, post_id=post.id).first():
     return redirect(url_for("posts_index"))
 
-  post.upvotes += 1
   upvote = Upvote(current_user.id, post.id)
   db.session().add(upvote)
   db.session().commit()
@@ -51,8 +50,13 @@ def posts_create():
   if not form.url.data:
     post.content = form.text.data
     post.is_text = True
-  
+
   db.session().add(post)
+  # insert post to database to generate id
+  db.session().flush()
+
+  upvote = Upvote(current_user.id, post.id)
+  db.session().add(upvote)
   db.session().commit()
 
   return redirect(url_for("posts_index"))
