@@ -21,13 +21,14 @@ class Post(PostBase):
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),
       nullable=False)
   
-  upvoted_accounts = db.relationship("Upvote")
+  # Also delete upvotes and comments when post is deleted
+  upvotes = db.relationship("Upvote", cascade="delete")
+  comments = db.relationship("Comment", cascade="delete")
 
   def __init__(self, title, is_text, content):
     self.title = title
     self.is_text = is_text
     self.content = content
-    self.upvotes = 0
 
   @staticmethod
   def list_posts_dangerously_ordered_by(param):
@@ -61,11 +62,6 @@ class Upvote(db.Model):
   __tablename__ = "upvote"
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'), primary_key=True)
   post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
-
-  account = db.relationship("User",
-      backref=db.backref("upvote", cascade="all, delete-orphan"))
-  post = db.relationship("Post",
-      backref=db.backref("upvote", cascade="all, delete-orphan"))
 
   def __init__(self, account_id, post_id):
     self.account_id = account_id
