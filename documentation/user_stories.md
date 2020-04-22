@@ -10,6 +10,7 @@ Posts are fetched with
 ```sql
 SELECT post.id, post.date_created, post.content, post.title, post.is_text,
 (SELECT COUNT(*) FROM Upvote WHERE post_id = post.id) as post_upvotes,
+(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id AND account_id = ?) as has_upvoted,
 account.username as post_author,
 COUNT(Comment.post_id) as post_comments FROM post
 LEFT JOIN Account ON Account.id = Post.account_id
@@ -47,7 +48,8 @@ Newest posts are fetched with
 ```sql
 SELECT post.id, post.date_created, post.content, post.title, post.is_text,
 (SELECT COUNT(*) FROM Upvote WHERE post_id = post.id) as post_upvotes,
-account.username as post_author, 
+(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id AND account_id = ?) as has_upvoted, 
+account.username as post_author,
 COUNT(Comment.post_id) as post_comments FROM post 
 LEFT JOIN Account ON Account.id = Post.account_id 
 LEFT JOIN Comment ON Comment.post_id = Post.id 
