@@ -37,20 +37,20 @@ class Post(PostBase):
     return res.first()[0]
 
   @staticmethod
-  def list_posts_dangerously_ordered_by(param):
+  def list_posts_ordered_by(param):
     user_id = current_user.id if current_user.is_authenticated else None
+    field_name = "post_upvotes" if param == "upvote" else "post.date_created"
 
     stmt = text("SELECT post.id, post.date_created, post.content, "
                 "post.title, post.is_text, "
                 "(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id) as post_upvotes, "
-                "(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id AND account_id = :user_id) "
-                " as current_user_has_upvoted, "
+                "(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id AND account_id = :user_id) as has_upvoted, "
                 "account.username as post_author, "
                 "COUNT(Comment.post_id) as post_comments FROM post "
                 "LEFT JOIN Account ON Account.id = Post.account_id "
                 "LEFT JOIN Comment ON Comment.post_id = Post.id "
                 "GROUP BY Post.id, Account.id "
-                "ORDER BY " + param + " DESC;").params(user_id=user_id)
+                "ORDER BY " + field_name + " DESC;").params(user_id=user_id)
 
     res = db.engine.execute(stmt)
     return [{"id":row[0], "date_created":datetime.fromisoformat(str(row[1])),

@@ -7,13 +7,13 @@ from application.posts.forms import CommentForm, PostForm, EditTextPostForm, Edi
 @app.route("/", methods=["GET"])
 def posts_index():
   return render_template("posts/list.html",
-      posts=Post.list_posts_dangerously_ordered_by("post_upvotes"))
+      posts=Post.list_posts_ordered_by("upvote"))
 
 
 @app.route("/new", methods=["GET"])
 def posts_newest():
   return render_template("posts/list.html",
-      posts=Post.list_posts_dangerously_ordered_by("post.date_created"))
+      posts=Post.list_posts_ordered_by("date"))
 
 
 @app.route("/submit")
