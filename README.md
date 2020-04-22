@@ -2,7 +2,7 @@
 
 ## Description
 
-A social news site with a page that lists posts submitted by users. A post consists of a title and content that can be a link to a news article or simply text. A post can also have zero or more comments. The list or posts can be sorted by date (newest first) or number of upvotes. The list can also be filtered to show all posts or only favorites.
+A social news site with a page that lists posts submitted by users. A post consists of a title and content that can be a link to a news article or simply text. A post can also have zero or more comments. The list or posts can be sorted by date (newest first) or number of upvotes.
 
 Features:
 
@@ -15,7 +15,6 @@ Features:
   * edit or delete their posts and comments
   * write comments on posts
   * upvote posts
-  * add posts to favorites
 
 The application is running at: https://social-news-site.herokuapp.com/
 
@@ -26,6 +25,8 @@ Username and password for test account is "test".
 [Database diagram](documentation/database_diagram.md)
 
 [User stories](documentation/user_stories.md)
+
+[User manual](documentation/user_manual.md)
 
 ## Set Up Instructions
 
