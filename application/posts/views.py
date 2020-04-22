@@ -26,11 +26,15 @@ def posts_form():
 @login_required
 def posts_upvote(post_id):
   post = Post.query.get(post_id)
-  if not post or Upvote.query.filter_by(account_id=current_user.id, post_id=post.id).first():
+  if not post:
     return redirect(url_for("posts_index"))
 
-  upvote = Upvote(current_user.id, post.id)
-  db.session().add(upvote)
+  upvote = Upvote.query.filter_by(account_id=current_user.id, post_id=post.id).first()
+  if upvote:
+    db.session().delete(upvote)
+  else:
+    upvote = Upvote(current_user.id, post.id)
+    db.session().add(upvote)
   db.session().commit()
 
   return redirect(url_for("posts_index"))
