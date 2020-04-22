@@ -29,6 +29,11 @@ class Post(PostBase):
     self.title = title
     self.is_text = is_text
     self.content = content
+  
+  def upvotes(self):
+    stmt = text("SELECT COUNT(account_id) FROM Upvote WHERE post_id = :post_id").params(post_id=self.id)
+    res = db.engine.execute(stmt)
+    return res.first()[0]
 
   @staticmethod
   def list_posts_dangerously_ordered_by(param):

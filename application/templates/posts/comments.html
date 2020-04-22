@@ -4,12 +4,12 @@
   <div class="post">
     {% if post.is_text %}
       <span class="content">{{ post.title }}</span></br>
-      {{ post.upvotes }} points by {{ post.author.username }}
+      {{ post.upvotes() }} points by {{ post.author.username }}
       {{ moment(post.date_created).fromNow() }}</br>
       <p class="content">{{ post.content }}</p>
     {% else %}
       <a class="content" href={{ post.content }}>{{ post.title }}</a></br>
-      {{ post.upvotes }} points by {{ post.author.username }}
+      {{ post.upvotes() }} points by {{ post.author.username }}
       {{ moment(post.date_created).fromNow() }}
     {% endif %}
   </div>
