@@ -115,10 +115,17 @@ textarea {
 .upvote-button {
   background: none;
   border: none;
-  color: rgb(199, 119, 0);
   cursor: pointer;
   font-size: 1em;
   margin-top: 0px;
+}
+
+.voted {
+  color: rgb(199, 119, 0);
+}
+
+.not-voted {
+  color: rgb(119, 119, 119);
 }
 
 .button {

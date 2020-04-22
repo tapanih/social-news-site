@@ -10,7 +10,9 @@
         <div class="upvote">
           <form method="POST" action="{{ url_for('posts_upvote', post_id=post.id) }}">
             <input type="hidden" value="upvote"/>
-            <button type="submit" value="upvote" class="upvote-button">▲</button>
+            <button type="submit" value="upvote" class="upvote-button 
+              {% if post.current_user_has_upvoted %} voted {% else %} not-voted {% endif %}"
+              >▲</button>
           </form>
         </div>
         <div class="post">

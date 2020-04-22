@@ -2,6 +2,7 @@ from application import db
 from application.models import Base
 from sqlalchemy.sql import text
 from datetime import datetime
+from flask_login import current_user
 
 class PostBase(Base):
   __abstract__ = True
@@ -37,19 +38,24 @@ class Post(PostBase):
 
   @staticmethod
   def list_posts_dangerously_ordered_by(param):
+    user_id = current_user.id if current_user.is_authenticated else None
+
     stmt = text("SELECT post.id, post.date_created, post.content, "
-                "post.title, post.is_text, (SELECT COUNT(*) FROM Upvote WHERE post_id = post.id) as post_upvotes, "
+                "post.title, post.is_text, "
+                "(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id) as post_upvotes, "
+                "(SELECT COUNT(*) FROM Upvote WHERE post_id = post.id AND account_id = :user_id) "
+                " as current_user_has_upvoted, "
                 "account.username as post_author, "
                 "COUNT(Comment.post_id) as post_comments FROM post "
                 "LEFT JOIN Account ON Account.id = Post.account_id "
                 "LEFT JOIN Comment ON Comment.post_id = Post.id "
                 "GROUP BY Post.id, Account.id "
-                "ORDER BY " + param + " DESC;")
+                "ORDER BY " + param + " DESC;").params(user_id=user_id)
 
     res = db.engine.execute(stmt)
     return [{"id":row[0], "date_created":datetime.fromisoformat(str(row[1])),
-             "content":row[2], "title":row[3], "is_text":row[4],
-             "upvotes":row[5], "author":row[6], "comments":row[7]}
+             "content":row[2], "title":row[3], "is_text":row[4], "upvotes":row[5],
+             "current_user_has_upvoted":row[6], "author":row[7], "comments":row[8]}
               for row in res]
 
 
