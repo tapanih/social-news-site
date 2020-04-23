@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, request
 from flask_bcrypt import Bcrypt
 from flask_moment import Moment
 app = Flask(__name__)
@@ -39,5 +39,11 @@ login_manager.login_message = "Please login to use this functionality."
 @login_manager.user_loader
 def load_user(user_id):
   return User.query.get(user_id)
+
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/auth/login?next=' + request.path)
+
 
 db.create_all()

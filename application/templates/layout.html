@@ -23,7 +23,7 @@
             {{ current_user.username }} ({{ current_user.get_karma() }}) |
             <li><a href="{{ url_for('auth_logout') }}">log out</a></li>
           {% else %}
-            <li><a href="{{ url_for('auth_login') }}">log in</a></li> |
+            <li><a href="{{ url_for('auth_login', next=request.path) }}">log in</a></li> |
             <li><a href="{{ url_for('auth_register') }}">register</a></li>
           {% endif %}
         </ul>

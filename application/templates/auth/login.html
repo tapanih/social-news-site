@@ -2,7 +2,7 @@
 
 {% block body %}
 {{ error }}
-<form method="POST" action="{{ url_for('auth_login') }}">
+<form method="POST" action="{{ url_for('auth_login', next=request.args.get('next')) }}">
 	{{ form.username.label }} {{ form.username(class_='login-field') }}<br/>
   {{ form.password.label }} {{ form.password(class_='login-field') }}<br/>
   <input type="hidden" value="login"/>

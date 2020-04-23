@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from flask_login import login_user, logout_user
+from flask_login import current_user, login_user, logout_user
 
 from application import app, db
 from application import bcrypt
@@ -8,6 +8,8 @@ from application.auth.forms import LoginForm, RegisterForm
 
 @app.route("/auth/login", methods = ["GET", "POST"])
 def auth_login():
+  if current_user.is_authenticated:
+    return redirect(url_for("posts_index"))
   if request.method == "GET":
     return render_template("auth/login.html", form=LoginForm())
   
@@ -17,7 +19,8 @@ def auth_login():
 
   if user and bcrypt.check_password_hash(user.password_hash, form.password.data):
     login_user(user)
-    return redirect(url_for("posts_index"))
+    redirect_url = request.args.get('next') or request.referrer or url_for("posts_index")
+    return redirect(redirect_url)
 
   return render_template("auth/login.html", form=form,
                          error="Wrong username or password")
@@ -26,7 +29,8 @@ def auth_login():
 @app.route("/auth/logout")
 def auth_logout():
   logout_user()
-  return redirect(url_for("posts_index"))
+  redirect_url = request.referrer or url_for("posts_index")
+  return redirect(redirect_url)
 
 
 @app.route("/auth/register", methods = ["GET", "POST"])
