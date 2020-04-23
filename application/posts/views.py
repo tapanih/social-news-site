@@ -22,9 +22,11 @@ def posts_form():
   return render_template("posts/new.html", form=PostForm())
 
 
-@app.route("/posts/<post_id>/upvote", methods=["POST"])
+@app.route("/posts/<post_id>/upvote", methods=["GET", "POST"])
 @login_required
 def posts_upvote(post_id):
+  if request.method == "GET":
+    return redirect(url_for("posts_index"))
   post = Post.query.get(post_id)
   if not post:
     return redirect(url_for("posts_index"))
