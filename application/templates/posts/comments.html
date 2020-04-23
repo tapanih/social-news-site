@@ -25,6 +25,7 @@
       </form>
     </div>
   {% endif %}
+  {% if current_user.is_authenticated %}
   <form method="POST" action="
     {% if comment_id is defined %}
       {{ url_for('posts_edit_comment', post_id=post.id, comment_id=comment_id) }}
@@ -41,6 +42,7 @@
     <input type="hidden" value="submit"/>
     <button type="submit" value="submit" class="button">submit</button>
   </form>
+  {% endif %}
   <div class="container-col">
     {% for comment in comments %}
     <div class="container-row">
