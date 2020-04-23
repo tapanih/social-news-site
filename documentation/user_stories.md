@@ -19,6 +19,11 @@ GROUP BY Post.id, Account.id
 ORDER BY post_upvotes DESC;
 ```
 
+Upvotes are inserted with
+```sql
+INSERT INTO upvote (account_id, post_id) VALUES (?, ?)
+```
+
 Users' karma is calculated with
 ```sql
 SELECT COUNT(*) FROM post
