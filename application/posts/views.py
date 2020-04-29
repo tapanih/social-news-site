@@ -23,7 +23,7 @@ def posts_newest():
   # allow only positive values
   page = page if page >= 1 else 1
   posts = Post.list_posts_ordered_by("date", page)
-  next_page_url = url_for("posts_index", page=page+1) if Post.has_next(page) else None
+  next_page_url = url_for("posts_newest", page=page+1) if Post.has_next(page) else None
   start_index = config.POSTS_PER_PAGE * (page - 1)
   return render_template("posts/list.html",
     posts=posts, next_page_url=next_page_url, start_index=start_index)
@@ -39,7 +39,8 @@ def posts_form():
 @login_required
 def posts_upvote(post_id):
   if request.method == "GET":
-    return redirect(url_for("posts_index"))
+    redirect_url = request.args.get('next') or request.referrer or url_for("posts_index")
+    return redirect(redirect_url)
   post = Post.query.get(post_id)
   if not post:
     return redirect(url_for("posts_index"))
@@ -52,7 +53,8 @@ def posts_upvote(post_id):
     db.session().add(upvote)
   db.session().commit()
 
-  return redirect(url_for("posts_index"))
+  redirect_url = request.args.get('next') or request.referrer or url_for("posts_index")
+  return redirect(redirect_url)
 
 
 @app.route("/posts/", methods=["POST"])
