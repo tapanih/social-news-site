@@ -88,6 +88,8 @@ def posts_create():
 def posts_delete(post_id):
   post = Post.query.get(post_id)
   if post and current_user == post.author:
+    Comment.query.filter_by(post_id=post.id).delete()
+    Upvote.query.filter_by(post_id=post.id).delete()
     db.session().delete(post)
     db.session().commit()
 
