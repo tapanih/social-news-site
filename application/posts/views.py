@@ -8,6 +8,8 @@ from application.posts.forms import CommentForm, PostForm, EditTextPostForm, Edi
 @app.route("/", methods=["GET"])
 def posts_index():
   page = request.args.get("page", 1, type=int)
+  # allow only positive values
+  page = page if page >= 1 else 1
   posts = Post.list_posts_ordered_by("upvote", page)
   next_page_url = url_for("posts_index", page=page+1) if Post.has_next(page) else None
   start_index = config.POSTS_PER_PAGE * (page - 1)
@@ -18,6 +20,8 @@ def posts_index():
 @app.route("/new", methods=["GET"])
 def posts_newest():
   page = request.args.get("page", 1, type=int)
+  # allow only positive values
+  page = page if page >= 1 else 1
   posts = Post.list_posts_ordered_by("date", page)
   next_page_url = url_for("posts_index", page=page+1) if Post.has_next(page) else None
   start_index = config.POSTS_PER_PAGE * (page - 1)
