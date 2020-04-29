@@ -1,3 +1,4 @@
+import config
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required, current_user
@@ -6,14 +7,22 @@ from application.posts.forms import CommentForm, PostForm, EditTextPostForm, Edi
 
 @app.route("/", methods=["GET"])
 def posts_index():
+  page = request.args.get("page", 1, type=int)
+  posts = Post.list_posts_ordered_by("upvote", page)
+  next_page_url = url_for("posts_index", page=page+1) if Post.has_next(page) else None
+  start_index = config.POSTS_PER_PAGE * (page - 1)
   return render_template("posts/list.html",
-      posts=Post.list_posts_ordered_by("upvote"))
+    posts=posts, next_page_url=next_page_url, start_index=start_index)
 
 
 @app.route("/new", methods=["GET"])
 def posts_newest():
+  page = request.args.get("page", 1, type=int)
+  posts = Post.list_posts_ordered_by("date", page)
+  next_page_url = url_for("posts_index", page=page+1) if Post.has_next(page) else None
+  start_index = config.POSTS_PER_PAGE * (page - 1)
   return render_template("posts/list.html",
-      posts=Post.list_posts_ordered_by("date"))
+    posts=posts, next_page_url=next_page_url, start_index=start_index)
 
 
 @app.route("/submit")

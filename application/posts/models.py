@@ -1,3 +1,4 @@
+import config
 from application import db
 from application.models import Base
 from sqlalchemy.sql import text
@@ -37,7 +38,7 @@ class Post(PostBase):
     return res.first()[0]
 
   @staticmethod
-  def list_posts_ordered_by(param):
+  def list_posts_ordered_by(param, page):
     user_id = current_user.id if current_user.is_authenticated else None
     field_name = "post_upvotes" if param == "upvote" else "post.date_created"
 
@@ -50,13 +51,23 @@ class Post(PostBase):
                 "LEFT JOIN Account ON Account.id = Post.account_id "
                 "LEFT JOIN Comment ON Comment.post_id = Post.id "
                 "GROUP BY Post.id, Account.id "
-                "ORDER BY " + field_name + " DESC;").params(user_id=user_id)
+                "ORDER BY " + field_name + " DESC "
+                "LIMIT :posts_per_page OFFSET ((:page - 1) * :posts_per_page);").params(
+                  user_id=user_id, page=page, posts_per_page=config.POSTS_PER_PAGE
+                )
 
     res = db.engine.execute(stmt)
     return [{"id":row[0], "date_created":datetime.fromisoformat(str(row[1])),
              "content":row[2], "title":row[3], "is_text":row[4], "upvotes":row[5],
              "current_user_has_upvoted":row[6], "author":row[7], "comments":row[8]}
               for row in res]
+
+  @staticmethod
+  def has_next(page):
+    stmt = text("SELECT COUNT(*) FROM Post;")
+    res = db.engine.execute(stmt)
+    count = res.first()[0]
+    return count > page * config.POSTS_PER_PAGE
 
 
 class Comment(PostBase):

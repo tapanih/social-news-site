@@ -148,6 +148,13 @@ textarea {
   margin-top: 2px;
 }
 
+.page-link {
+  margin-left: 10px;
+  margin-top: 15px;
+  text-decoration: none;
+  color: white;
+}
+
 .comment-link {
   text-decoration: none;
   color: rgb(119, 119, 119);

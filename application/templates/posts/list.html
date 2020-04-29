@@ -5,7 +5,7 @@
     {% for post in posts %}
       <div class="container-row">
         <div class="numbering">
-          {{ loop.index }}.
+          {{ start_index + loop.index }}.
         </div>
         <div class="upvote">
           <form method="POST" action="{{ url_for('posts_upvote', post_id=post.id) }}">
@@ -35,5 +35,6 @@
         </div>
       </div>
     {% endfor %}
+    {% if next_page_url %} <a class="page-link" href="{{ next_page_url }}"> next page</a> {% endif %}
     </div>
 {% endblock %}
