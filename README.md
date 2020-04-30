@@ -60,3 +60,7 @@ Also a database needs to be created with
 ```
 (venv) $ heroku addons:add heroku-postgresql:hobby-dev
 ```
+
+## Limitations
+
+Using different database management systems locally and in production makes development harder than it needs to be. Using PostgreSQL everywhere would have been a better option. Also the performance on larger data sets is unknown. Currently there are no indices used and upvote/comment counts are calculated on the fly.
