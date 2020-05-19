@@ -111,3 +111,8 @@ Comments are deleted with
 ```sql
 DELETE FROM comment WHERE comment.id = <deleted_comment_id>;
 ```
+
+## Missing features
+
+- There is only one user role. An admin role would have been a nice feature to have. Admins would have been able to edit and delete all posts and comments.
+- Users might want to see a listing of their submitted posts.
