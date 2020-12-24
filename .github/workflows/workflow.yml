@@ -22,6 +22,7 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "social-news-site"
         heroku_email: ${{secrets.HEROKU_EMAIL}}
+        usedocker: true
         healthcheck: http://social-news-site.herokuapp.com/health
         checkstring: ok
         rollbackonhealthcheckfailed: true
