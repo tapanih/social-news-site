@@ -21,7 +21,7 @@ jobs:
     - run: python -m venv venv
     - run: source venv/bin/activate
     - run: pip install -r requirements.txt
-    - run: pytest
+    - run: robot .
 
     - name: deploy to Heroku
       if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
