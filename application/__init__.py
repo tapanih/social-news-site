@@ -11,10 +11,14 @@ import os
 
 if os.environ.get("HEROKU"):
   app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+elif os.environ.get("TEST"):
+  app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+  app.config["TESTING"] = True
 else:
   app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///application.db"
   app.config["SQLALCHEMY_ECHO"] = True
 
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 from application import models

@@ -15,6 +15,14 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - run: python -m venv venv
+    - run: source venv/bin/activate
+    - run: pip install -r requirements.txt
+    - run: pytest
+
     - name: deploy to Heroku
       if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
       uses: akhileshns/heroku-deploy@v3.7.8 
