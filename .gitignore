@@ -149,3 +149,8 @@ media
 
 # Database files
 application.db
+
+# Robot framework output files
+log.html
+report.html
+output.xml
