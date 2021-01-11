@@ -13,18 +13,20 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-    - run: python -m venv venv
-    - run: source venv/bin/activate
-    - run: pip install -r requirements.txt
-    - run: python3 -m robot.run .
-
-    - name: deploy to Heroku
-      if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+    - name: Setup virtual environment
+      run: python -m venv venv && source venv/bin/activate
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run tests
+      run: coverage run -m robot.run .
+    - name: Upload coverage to Codecov
+      run: bash <(curl -s https://codecov.io/bash)
+    - name: Deploy to Heroku
+      if: ${{ github.event_name == 'push' }}
       uses: akhileshns/heroku-deploy@v3.7.8 
       with:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -37,35 +39,8 @@ jobs:
 
     - uses: actions/checkout@v2
     - name: Bump version and push tag
-      if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+      if: ${{ github.event_name == 'push' }}
       uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEFAULT_BUMP: patch
-
-    - name: Send a build failure notification to Slack
-      uses: 8398a7/action-slack@v3
-      if: ${{ failure() }}
-      with:
-        status: ${{ job.status }}
-        fields: repo,message,commit,author,took
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    
-    - name: Send a deployment notification to Slack
-      uses: 8398a7/action-slack@v3
-      if: ${{ success() && github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
-      with:
-        status: custom
-        fields: commit,author,took
-        custom_payload: |
-          {
-            username: 'github-action',
-            icon_emoji: ':100:',
-            attachments: [{
-              color: 'good',
-              text: `a new version deployed to http://social-news-site.herokuapp.com/ (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} succeeded in ${process.env.AS_TOOK}`,
-            }]
-          }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
