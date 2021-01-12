@@ -1,5 +1,8 @@
 # social-news-site
 
+![CI](https://github.com/tapanih/social-news-site/workflows/build/badge.svg)
+[![codecov](https://codecov.io/gh/tapanih/social-news-site/branch/master/graph/badge.svg?token=3BBQU3X4QP)](https://codecov.io/gh/tapanih/social-news-site)
+
 ## Description
 
 A social news site with a page that lists posts submitted by users. A post consists of a title and content that can be a link to a news article or simply text. A post can also have zero or more comments. The list or posts can be sorted by date (newest first) or number of upvotes.
