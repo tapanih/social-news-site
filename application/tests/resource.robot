@@ -5,7 +5,7 @@ Library          FlaskLibrary.py
 
 *** Variables ***
 
-${LOGIN_FORM}     <form method="POST" action="/auth/login">
+${LOGIN_FORM}     <form method="POST" action="/auth/login
 
 *** Keywords ***
 
@@ -17,6 +17,9 @@ User "${username}" logs in with password "${password}"
 
 Page contains "${text}"
     Page Contains    ${text}
+
+Page contains the login form
+    Page Contains    ${LOGIN_FORM}
 
 Page does not contain "${text}"
     Page Not Contains    ${text}

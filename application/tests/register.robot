@@ -27,8 +27,6 @@ User can register with a valid username and matching passwords
     Then page contains the login form
 
 *** Keywords ***
+
 User registers with username "${username}", password "${password}" and password confirmation "${confirm_password}"
     Register     ${username}    ${password}    ${confirm_password}
-
-Page contains the login form
-    Page Contains    ${LOGIN_FORM}

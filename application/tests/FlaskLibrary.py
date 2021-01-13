@@ -10,7 +10,7 @@ class FlaskLibrary(object):
     self.response = None
 
   def navigate_to(self, path):
-    self.response = self.client.get(path)
+    self.response = self.client.get(path, follow_redirects=True)
     if self.response.status_code != 200:
       raise AssertionError(f"Unexpected status code: {self.response.status_code} (expected: 200).")
   
@@ -36,6 +36,11 @@ class FlaskLibrary(object):
     ), follow_redirects=True)
 
   def logout(self):
-    self.response = self.client.get("/auth/logout", follow_redirects=True)
-    if self.response.status_code != 200:
-      raise AssertionError(f"Unexpected status code: {self.response.status_code} (expected: 200).")
+    self.navigate_to("/auth/logout")
+
+  def create_post(self, title, url, text):
+    self.response = self.client.post("/posts", data=dict(
+      title=title,
+      url=url,
+      text=text
+    ), follow_redirects=True)
