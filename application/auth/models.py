@@ -1,12 +1,13 @@
 from application import db
 from application.models import Base
 from sqlalchemy.sql import text
+import config
 
 class User(Base):
 
   __tablename__ = "account"
 
-  username = db.Column(db.String(40), unique=True, nullable=False)
+  username = db.Column(db.String(config.USERNAME_MAX_LENGTH), unique=True, nullable=False)
   password_hash = db.Column(db.String(255), nullable=False)
   date_registered = db.Column(db.DateTime, default=db.func.current_timestamp())
 

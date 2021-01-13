@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
 from application.auth.models import User
+import config
 
 class LoginForm(FlaskForm):
   username = StringField("username")
@@ -12,7 +13,9 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
   username = StringField("username", validators=[
-    Length(min=3, max=40, message="username must be between 3 and 40 characters long")
+    Length(min=config.USERNAME_MIN_LENGTH, max=config.USERNAME_MAX_LENGTH,
+           message=f"username must be between {config.USERNAME_MIN_LENGTH} " +
+                    f"and {config.USERNAME_MAX_LENGTH} characters long")
   ])
   password = PasswordField("password", validators=[DataRequired()])
   confirm_password = PasswordField("confirm password",

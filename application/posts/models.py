@@ -11,13 +11,13 @@ class PostBase(Base):
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
       onupdate=db.func.current_timestamp())
-  content = db.Column(db.String(3000), nullable=False)
+  content = db.Column(db.String(config.TEXT_MAX_LENGTH), nullable=False)
 
 
 class Post(PostBase):
   __tablename__ = "post"
 
-  title = db.Column(db.String(255), nullable=False)
+  title = db.Column(db.String(config.TITLE_MAX_LENGTH), nullable=False)
   is_text = db.Column(db.Boolean, nullable=False)
 
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'),

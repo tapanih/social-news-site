@@ -21,7 +21,7 @@ CREATE TABLE post (
         date_created DATETIME, 
         date_modified DATETIME, 
         content VARCHAR(3000) NOT NULL, 
-        title VARCHAR(255) NOT NULL, 
+        title VARCHAR(200) NOT NULL, 
         is_text BOOLEAN NOT NULL, 
         account_id INTEGER NOT NULL, 
         PRIMARY KEY (id), 
