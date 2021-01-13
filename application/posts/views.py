@@ -17,7 +17,7 @@ def posts_index():
     posts=posts, next_page_url=next_page_url, start_index=start_index)
 
 
-@app.route("/new", methods=["GET"])
+@app.route("/newest", methods=["GET"])
 def posts_newest():
   page = request.args.get("page", 1, type=int)
   # allow only positive values
