@@ -1,7 +1,7 @@
 *** Settings ***
 
-Documentation    A test suite for authentication.
-Library          FlaskLibrary.py
+Documentation    A test suite for login functionality.
+Resource         resource.robot
 
 *** Test Cases ***
 
@@ -25,6 +25,3 @@ User "${username}" registers with password "${password}"
 
 User "${username}" logs in with password "${password}"
     Login   ${username}    ${password}
-
-Page contains "${text}"
-    Page Contains    ${text}

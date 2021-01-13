@@ -11,10 +11,12 @@ class LoginForm(FlaskForm):
     csrf = False
 
 class RegisterForm(FlaskForm):
-  username = StringField("username", validators=[Length(min=3, max=40)])
+  username = StringField("username", validators=[
+    Length(min=3, max=40, message="username must be between 3 and 40 characters long")
+  ])
   password = PasswordField("password", validators=[DataRequired()])
   confirm_password = PasswordField("confirm password",
-    validators=[DataRequired(), EqualTo("password", "passwords don't match")])
+    validators=[DataRequired(), EqualTo("password", "passwords do not match")])
   
   def validate_username(self, username):
     user = User.query.filter_by(username=username.data).first()

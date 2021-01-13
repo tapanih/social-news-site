@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library    FlaskLibrary.py
+Resource    resource.robot
 
 *** Test Cases ***
 
@@ -12,6 +12,3 @@ Main page works correctly
 *** Keywords ***
 User navigates to the main page
     Navigate To    /
-
-Page contains "${text}"
-    Page Contains    ${text}
