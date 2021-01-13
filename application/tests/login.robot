@@ -19,9 +19,14 @@ User can login with a valid username and password
     When user "kalle" logs in with password "password"
     Then page contains "log out"
 
-*** Keywords ***
-User "${username}" registers with password "${password}"
-    Register     ${username}    ${password}    ${password}
+User can logout
+    Given user "kalle" registers with password "password"
+    When user "kalle" logs in with password "password"
+    Then page does not contain "log in"
+    When user logs out
+    Then page contains "log in"
 
-User "${username}" logs in with password "${password}"
-    Login   ${username}    ${password}
+*** Keywords ***
+
+User logs out
+    Logout

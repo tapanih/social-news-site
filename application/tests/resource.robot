@@ -17,3 +17,6 @@ User "${username}" logs in with password "${password}"
 
 Page contains "${text}"
     Page Contains    ${text}
+
+Page does not contain "${text}"
+    Page Not Contains    ${text}
