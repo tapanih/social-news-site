@@ -8,7 +8,7 @@ class PostFormBase(FlaskForm):
   title = StringField("title", validators=[
     Length(min=config.TITLE_MIN_LENGTH, max=config.TITLE_MAX_LENGTH,
            message=f"title must be between {config.TITLE_MIN_LENGTH} " +
-                   f"and {config.COMMENT_MAX_LENGTH} characters long")
+                   f"and {config.TITLE_MAX_LENGTH} characters long")
   ])
 
   class Meta:
